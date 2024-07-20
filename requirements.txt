@@ -3,3 +3,4 @@ groq
 PyPDF2
 pdfplumber
 pytesseract
+xlrd>=2.0.1
