@@ -6,7 +6,7 @@ from PIL import Image
 from groq import Groq
 
 # Thiết lập API key của Groqcloud
-api_key = "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"
+api_key = st.secrets["api_key"]
 client = Groq(api_key=api_key)
 
 # Define the prompt for analyzing customer data
@@ -104,7 +104,6 @@ if uploaded_file:
     elif uploaded_file.type in ["image/png", "image/jpeg"]:
         data = extract_from_image(uploaded_file)
 
-    # st.write("Extracted Data:")
     # st.write(data)
     st.write("Data has been extracted!")
 
