@@ -96,8 +96,8 @@ A user wants to create documentation for software development (website, app, etc
 You are an AI assistant specialized in generating Data Models. Use the provided FRD and Use Case Documentation to create detailed data models (ERD, Logical Data Model).
 
 ### Data Models
-- **Entity-Relationship Diagram (ERD):** [Description and diagram]
-- **Logical Data Model:** [Description and model]
+- **Entity-Relationship Diagram (ERD):** [Description]
+- **Logical Data Model:** [Description]
 """
 
 wireframes_mockups_prompt_template = """
@@ -106,21 +106,21 @@ You are an AI assistant specialized in generating Wireframes and Mockups. Use th
 
 ### Wireframes and Mockups
 - **Basic Wireframes:** [Description and diagrams]
-- **Detailed Mockups:** [Description and designs]
+- **Detailed Mockups:** [For each screen, provide a detailed list of components]
 """
 
-sdd_prompt_template = """
-A user wants to create documentation for software development (website, app, etc.).
-You are an AI assistant specialized in generating System Design Documents (SDD). Use the provided FRD, Use Case Documentation, Data Models, and Wireframes and Mockups to create a detailed SDD.
+# sdd_prompt_template = """
+# A user wants to create documentation for software development (website, app, etc.).
+# You are an AI assistant specialized in generating System Design Documents (SDD). Use the provided FRD, Use Case Documentation, Data Models, and Wireframes and Mockups to create a detailed SDD.
 
-### System Design Document
-- **System Architecture:** [Description and design]
-- **Database Design:** [Description and design]
-- **User Interface Design:** [Description and design]
-- **Class Diagram:** [Description and diagram]
-- **Activity Diagram:** [Description and diagram]
-- **Sequence Diagram:** [Description and diagram]
-"""
+# ### System Design Document
+# - **System Architecture:** [Description and design]
+# - **Database Design:** [Description and design]
+# - **User Interface Design:** [Description and design]
+# - **Class Diagram:** [Description and diagram]
+# - **Activity Diagram:** [Description and diagram]
+# - **Sequence Diagram:** [Description and diagram]
+# """
 
 def call_llm_api(prompt_template, user_content):
     data = {
