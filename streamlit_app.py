@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from groq import Groq
 
-# Thiết lập API key của Groqcloud
+# Setup API key for Groqcloud
 api_key = st.secrets["api_key"]
 client = Groq(api_key=api_key)
 
@@ -52,9 +52,11 @@ You are an AI assistant specialized in generating Functional Requirement Documen
 
 use_case_prompt_template = """
 A user wants to create documentation for software development (website, app, etc.).
-You are an AI assistant specialized in generating Use Case Documentation. Use the provided FRD to create detailed use case documentation. Follow the structure and provide comprehensive descriptions. Ensure each section is detailed and includes all relevant scenarios.
+You are an AI assistant specialized in generating Use Case Documentation. Use the provided FRD to create detailed use case documentation. Follow the structure and provide comprehensive descriptions. Provide a comprehensive list of all relevant use cases derived from the provided FRD.
 
-### Use Case Documentation
+### Example Format
+
+**I. Use Case 1** 
 - **Use Case Name:** [Name of the use case]
 - **Actors:** [List of actors]
 - **Preconditions:** [Conditions that must be met before the use case starts]
@@ -65,6 +67,24 @@ You are an AI assistant specialized in generating Use Case Documentation. Use th
 - **Alternate Flows:**
   1. [Alternative step 1]
   2. [Alternative step 2]
+- **Triggers:** [What triggers the use case]
+- **Assumptions:** [Assumptions made for the use case]
+- **Detailed Description:** [Detailed description of the use case]
+- **Notes:** [Additional notes]
+
+**II. Use Case 2** 
+- **Use Case Name:** [Name of the use case]
+- **Actors:** [List of actors]
+- **Preconditions:** [Conditions that must be met before the use case starts]
+- **Postconditions:** [Conditions that must be met after the use case ends]
+- **Main Flow:**
+  1. [Step 1]
+  2. [Step 2]
+  3. [Step 3]
+- **Alternate Flows:**
+  1. [Alternative step 1]
+  2. [Alternative step 2]
+  3. [Alternative step 3]
 - **Triggers:** [What triggers the use case]
 - **Assumptions:** [Assumptions made for the use case]
 - **Detailed Description:** [Detailed description of the use case]
@@ -282,39 +302,41 @@ def wireframes_and_mockups():
         return st.session_state['wireframes_mockups']
 
 # Step 7: System Design Document (SDD)
-def system_design_document():
-    st.header('Step 7: System Design Document (SDD)')
+# def system_design_document():
+#     st.header('Step 7: System Design Document (SDD)')
 
-    if st.session_state['frd'] and st.session_state['use_case_doc'] and st.session_state['data_modeling'] and st.session_state['wireframes_mockups']:
-        st.write("### Functional Requirement Documents from Step 3:")
-        st.write(st.session_state['frd'])
-        st.write("### Use Case Documentation from Step 4:")
-        st.write(st.session_state['use_case_doc'])
-        st.write("### Data Modeling from Step 5:")
-        st.write(st.session_state['data_modeling'])
-        st.write("### Wireframes and Mockups from Step 6:")
-        st.write(st.session_state['wireframes_mockups'])
+#     if st.session_state['frd'] and st.session_state['use_case_doc'] and st.session_state['data_modeling'] and st.session_state['wireframes_mockups']:
+#         st.write("### Functional Requirement Documents from Step 3:")
+#         st.write(st.session_state['frd'])
+#         st.write("### Use Case Documentation from Step 4:")
+#         st.write(st.session_state['use_case_doc'])
+#         st.write("### Data Modeling from Step 5:")
+#         st.write(st.session_state['data_modeling'])
+#         st.write("### Wireframes and Mockups from Step 6:")
+#         st.write(st.session_state['wireframes_mockups'])
 
-    if st.button('Generate System Design Document'):
-        with st.spinner("Generating System Design Document..."):
-            gen_sdd_prompt = f"""
-            Generate System Design Document from following documents:
-            - Functional Requirement Documents: {st.session_state['frd']}
-            - Use Case Documentation: {st.session_state['use_case_doc']}
-            - Data Modeling: {st.session_state['data_modeling']}
-            - Wireframes and Mockups: {st.session_state['wireframes_mockups']}
-            """
-            st.session_state['sdd'] = call_llm_api(sdd_prompt_template, gen_sdd_prompt)
+#     if st.button('Generate System Design Document'):
+#         with st.spinner("Generating System Design Document..."):
+#             gen_sdd_prompt = f"""
+#             Generate System Design Document from following documents:
+#             - Functional Requirement Documents: {st.session_state['frd']}
+#             - Use Case Documentation: {st.session_state['use_case_doc']}
+#             - Data Modeling: {st.session_state['data_modeling']}
+#             - Wireframes and Mockups: {st.session_state['wireframes_mockups']}
+#             """
+#             st.session_state['sdd'] = call_llm_api(sdd_prompt_template, gen_sdd_prompt)
 
-        st.write("### Generated System Design Document:")
-        st.write(st.session_state['sdd'])
+#         st.write("### Generated System Design Document:")
+#         st.write(st.session_state['sdd'])
 
-        return st.session_state['sdd']
+#         return st.session_state['sdd']
 
 # Main function to integrate all steps
 def main():
     st.sidebar.title("Business Analyst Assistant")
-    step = st.sidebar.radio("Select Step", ["Step 1: Data Preprocessing", "Step 2: Business Requirement Documents", "Step 3: Functional Requirement Document", "Step 4: Use Case Documentation", "Step 5: Data Modeling", "Step 6: Wireframes and Mockups", "Step 7: System Design Document"])
+    step = st.sidebar.radio("Select Step", ["Step 1: Data Preprocessing", "Step 2: Business Requirement Documents", 
+                                            "Step 3: Functional Requirement Document", "Step 4: Use Case Documentation", 
+                                            "Step 5: Data Modeling", "Step 6: Wireframes and Mockups"])
 
     if step == "Step 1: Data Preprocessing":
         data_summary = data_preprocessing()
@@ -343,11 +365,11 @@ def main():
             st.warning("Please complete Step 3: Functional Requirement Document and Step 4: Use Case Documentation first.")
         else:
             wireframes_and_mockups()
-    elif step == "Step 7: System Design Document":
-        if st.session_state['frd'] is None or st.session_state['use_case_doc'] is None or st.session_state['data_modeling'] is None or st.session_state['wireframes_mockups'] is None:
-            st.warning("Please complete Step 3: Functional Requirement Document, Step 4: Use Case Documentation, Step 5: Data Modeling and Step 6: Wireframes and Mockups first.")
-        else:
-            system_design_document()
+    # elif step == "Step 7: System Design Document":
+    #     if st.session_state['frd'] is None or st.session_state['use_case_doc'] is None or st.session_state['data_modeling'] is None or st.session_state['wireframes_mockups'] is None:
+    #         st.warning("Please complete Step 3: Functional Requirement Document, Step 4: Use Case Documentation, Step 5: Data Modeling and Step 6: Wireframes and Mockups first.")
+    #     else:
+    #         system_design_document()
 
 if __name__ == '__main__':
     main()
