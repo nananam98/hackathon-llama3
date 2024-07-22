@@ -165,10 +165,12 @@ def data_preprocessing():
     if uploaded_file:
         df = pd.read_excel(uploaded_file)
         st.write("Excel Data:", df)
-
+        request_stakeholders = st.text_area("Requests from stakeholders:")
         if st.button('Process Data'):
             with st.spinner("Processing..."):
-                analysis_prompt = f"Analysis this data:\n{df.to_string()}"
+                analysis_prompt = f"""
+                                    - Analysis this data:\n{df.to_string()}
+                                    - Requests from stakeholders: {request_stakeholders}"""
                 data_summary = call_llm_api(preprocess_prompt_template, analysis_prompt)
 
                 # Extract key information and functional requirements
